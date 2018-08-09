@@ -17,6 +17,6 @@
     ],
     "require": {
         "silverstripe/framework": "~3.2",
-        "silverstripe/userforms": "~4.4", 
+        "silverstripe/userforms": "~4.4"
     }
 }
