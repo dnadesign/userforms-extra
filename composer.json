@@ -1,0 +1,22 @@
+{
+    "name": "dnadesign/userforms-extra",
+    "description": "Extends userforms default functionalities",
+    "type": "silverstripe-module",
+    "keywords": [
+        "silverstripe",
+        "userforms",
+        "extra",
+        "email",
+        "file"
+    ],
+    "authors": [
+        {
+            "name": "DNA Design",
+            "email": "dev@dna.co.nz"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "~3.2",
+        "silverstripe/userforms": "~4.4", 
+    }
+}

@@ -1,0 +1,22 @@
+---
+Name: userforms-extra
+After:
+  - 'framework/*'
+  - 'cms/*'
+---
+
+UserDefinedForm_EmailRecipient:
+  extensions:
+    - UserDefinedForm_EmailRecipientExtension
+
+UserDefinedForm_Controller:
+  extensions:
+    - UserDefinedFormController_AttachmentExtension
+
+EditableFileField:
+  extensions:
+    - EditableFileField_AllowedTypeExtension
+
+UserForm:
+  extensions:
+    - UserForm_FileTypeExtension
