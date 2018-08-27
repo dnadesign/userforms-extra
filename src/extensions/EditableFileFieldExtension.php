@@ -27,4 +27,40 @@ class EditableFileField_AllowedTypeExtension extends DataExtension {
 
 		return explode(',', $extensions);
 	}
+
+	/**
+	* Render with a special template
+	* so we can add the limitations as text
+	*/
+	public function afterUpdateFormField(&$field)
+	{
+		$field->setFieldHolderTemplate('UserFormsFileField_holder');
+		$field->setDescription($this->owner->getLimitations());
+	}
+
+	/**
+	* Return a sentence explaining what the file extensions and size limitations are.
+	*
+	* @return String | null
+	*/
+	public function getLimitations()
+	{
+		$limitations = null;
+
+		$extensions = $this->owner->getAllowedExtensionArray();
+		if (!empty($extensions )) {
+			$limitations = sprintf('Only files with extensions <span class="file-extensions">%s</span> can be uploaded.', implode(' | ', $extensions));
+		}
+
+		if ($this->owner->MaxFileSizeMB) {
+			$limitations = ($limitations) ? $limitations.'&nbsp;' : '';
+			$limitations .= sprintf('File must not exceed %sMB.', $this->owner->MaxFileSizeMB);
+		}
+
+		if ($limitations) {
+			return DBField::create_field('HTMLText', $limitations);
+		}
+
+		return null;
+	}
 }
