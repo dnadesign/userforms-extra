@@ -36,7 +36,30 @@ class EditableFileField_AllowedTypeExtension extends DataExtension {
 	{
 		$field->setFieldHolderTemplate('UserFormsFileField_holder');
 		$field->setDescription($this->owner->getLimitations());
+
+		$fieldID = $field->getName();
+		$extensions = implode('|', $this->owner->getAllowedExtensionArray());
+
+		$field->setAttribute('data-rule-extensions', $extensions);
+
+		if ($extensions) {
+			Requirements::customScript(<<<JS
+                (function($) {
+                    $(document).ready(function() {
+                		$("#{$fieldID}").rules( "add", {
+						  extensions: "{$extensions}",
+						  messages: {
+						    extensions: "Please add file with a valid extension ({$extensions})",
+						  }
+						});
+                    });
+                })(jQuery);
+JS
+, '{$fieldID}');
 	}
+	}
+
+
 
 	/**
 	* Return a sentence explaining what the file extensions and size limitations are.
