@@ -20,3 +20,7 @@ EditableFileField:
 UserForm:
   extensions:
     - UserForm_FileTypeExtension
+
+Injector:
+  UserForm:
+    class: BetterUserForm
