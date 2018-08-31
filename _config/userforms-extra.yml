@@ -13,6 +13,10 @@ UserDefinedForm_Controller:
   extensions:
     - UserDefinedFormController_AttachmentExtension
 
+EditableFormField:
+  extensions:
+    - EditableFormField_InitialVisibility
+
 EditableFileField:
   extensions:
     - EditableFileField_AllowedTypeExtension
