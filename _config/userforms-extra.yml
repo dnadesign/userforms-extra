@@ -5,26 +5,26 @@ After:
   - 'cms/*'
 ---
 
-UserDefinedForm_EmailRecipient:
+SilverStripe\UserForms\Model\Recipient\EmailRecipient:
   extensions:
-    - UserDefinedForm_EmailRecipientExtension
+    - DNADesign\UserFormExtras\Extension\UserDefinedForm_EmailRecipientExtension
 
-UserDefinedForm_Controller:
+SilverStripe\UserForms\Control\UserDefinedFormController:
   extensions:
-    - UserDefinedFormController_AttachmentExtension
+    - DNADesign\UserFormExtras\Extension\UserDefinedFormController_AttachmentExtension
 
-EditableFormField:
+SilverStripe\UserForms\Model\EditableFormField:
   extensions:
-    - EditableFormField_InitialVisibility
+    - DNADesign\UserFormExtras\Extension\EditableFormField_InitialVisibility
 
-EditableFileField:
+SilverStripe\UserForms\Model\EditableFormField\EditableFileField:
   extensions:
-    - EditableFileField_AllowedTypeExtension
+    - DNADesign\UserFormExtras\Extension\EditableFileField_AllowedTypeExtension
 
-UserForm:
+SilverStripe\UserForms\Form\UserForm:
   extensions:
-    - UserForm_FileTypeExtension
+    - DNADesign\UserFormExtras\Extension\UserForm_FileTypeExtension
 
 Injector:
-  UserForm:
-    class: BetterUserForm
+  SilverStripe\UserForms\Form\UserForm:
+    class: DNADesign\UserFormExtras\Form\BetterUserForm
