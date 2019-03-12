@@ -4,6 +4,7 @@ namespace DNADesign\UserFormExtras\Extension;
 
 use SilverStripe\Core\Extension;
 use SilverStripe\Control\Session;
+use SilverStripe\Control\Controller;
 
 class EditableFormField_InitialVisibility extends Extension
 {
@@ -23,7 +24,10 @@ class EditableFormField_InitialVisibility extends Extension
                 $conditionFieldName = $rule->ConditionField()->Name;
                 // Can only get the data from the session
                 // Has we may get redirected at this stage and the request will be empty
-                $value = Session::get('FormInfo.BetterUserForm_Form.data.'.$conditionFieldName);
+                $controller = Controller::curr();
+                $value = $controller->getRequest()
+                    ->getSession()
+                    ->get('FormInfo.BetterUserForm_Form.data.' . $conditionFieldName);
                 
                 // If field has a rules that would reveal it
                 if ($rule->Display == 'Show' && $value) {

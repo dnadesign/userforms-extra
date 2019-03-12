@@ -2,11 +2,11 @@
 
 namespace DNADesign\UserFormExtras\Form;
 
-use SilverStripe\Core\Convert;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
-use SilverStripe\Control\Session;
 use SilverStripe\UserForms\Form\UserForm;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\Core\Convert;
+use SilverStripe\Control\Session;
 
 /**
 * This class extension is to allow to resurface the error message
@@ -42,8 +42,9 @@ class BetterUserForm extends UserForm
                     return $error;
                 }, $errors);
 
-                Session::set("FormInfo.{$this->FormName()}.errors", $errors);
-                Session::set("FormInfo.{$this->FormName()}.data", $data);
+                $session = $this->owner->controller->getSession();
+                $session->set("FormInfo.{$this->FormName()}.errors", $errors);
+                $session->set("FormInfo.{$this->FormName()}.data", $data);
 
                 // If option is to display error messages at the top
                 // Set the Form session message as well
