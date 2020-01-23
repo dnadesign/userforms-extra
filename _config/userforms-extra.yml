@@ -1,8 +1,6 @@
 ---
 Name: userforms-extra
-After:
-  - 'framework/*'
-  - 'cms/*'
+After: '#userformsconfig'
 ---
 
 SilverStripe\UserForms\Model\Recipient\EmailRecipient:
