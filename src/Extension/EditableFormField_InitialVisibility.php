@@ -3,7 +3,8 @@
 namespace DNADesign\UserFormExtras\Extension;
 
 use SilverStripe\Core\Extension;
-use SilverStripe\Control\Session;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Core\Injector\Injector;
 
 class EditableFormField_InitialVisibility extends Extension
 {
@@ -21,9 +22,11 @@ class EditableFormField_InitialVisibility extends Extension
 
             foreach ($rules as $rule) {
                 $conditionFieldName = $rule->ConditionField()->Name;
-                // Can only get the data from the session
-                // Has we may get redirected at this stage and the request will be empty
-                $value = Session::get('FormInfo.BetterUserForm_Form.data.'.$conditionFieldName);
+                
+                // Applying fix provided @Ashpik https://github.com/dnadesign/userforms-extra/issues/2
+                $request = Injector::inst()->get(HTTPRequest::class);
+                $session = $request->getSession();
+                $value = $session->get('FormInfo.BetterUserForm_Form.data.' . $conditionFieldName);
                 
                 // If field has a rules that would reveal it
                 if ($rule->Display == 'Show' && $value) {
