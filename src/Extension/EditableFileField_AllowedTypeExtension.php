@@ -43,7 +43,7 @@ class EditableFileField_AllowedTypeExtension extends DataExtension
     */
     public function afterUpdateFormField(&$field)
     {
-        $field->setFieldHolderTemplate('EditableFileField_holder');
+        $field->setFieldHolderTemplate('Forms/EditableFileField_holder');
         $field->setDescription($this->owner->getLimitations());
     }
 
