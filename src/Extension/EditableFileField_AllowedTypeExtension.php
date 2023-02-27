@@ -29,7 +29,7 @@ class EditableFileField_AllowedTypeExtension extends DataExtension
     */
     public function getAllowedExtensionArray()
     {
-        $extensions = preg_replace('/[\s+|.+]/', '', strtolower($this->owner->AllowedExtensions));
+        $extensions = preg_replace('/[\s+|.+]/', '', strtolower($this->owner->AllowedExtensions ?? ''));
         if (!$extensions) {
             return null;
         }
