@@ -21,6 +21,6 @@ class UserDefinedForm_EmailRecipientExtension extends DataExtension
     {
         // Add Checkbox to allow Files to be attached to emails
         $emailFile = CheckboxField::create('AttachFilesToEmail');
-        $fields->insertAfter($emailFile, 'SendPlain');
+        $fields->insertAfter('SendPlain', $emailFile);
     }
 }
