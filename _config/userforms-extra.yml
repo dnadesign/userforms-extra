@@ -5,23 +5,23 @@ After: '#userformsconfig'
 
 SilverStripe\UserForms\Model\Recipient\EmailRecipient:
   extensions:
-    - DNADesign\UserFormExtras\Extension\UserDefinedForm_EmailRecipientExtension
+    - DNADesign\UserFormExtras\Extension\UserDefinedFormEmailRecipientExtension
 
 SilverStripe\UserForms\Control\UserDefinedFormController:
   extensions:
-    - DNADesign\UserFormExtras\Extension\UserDefinedFormController_AttachmentExtension
+    - DNADesign\UserFormExtras\Extension\UserDefinedFormControllerAttachmentExtension
 
 SilverStripe\UserForms\Model\EditableFormField:
   extensions:
-    - DNADesign\UserFormExtras\Extension\EditableFormField_InitialVisibility
+    - DNADesign\UserFormExtras\Extension\EditableFormFieldInitialVisibility
 
 SilverStripe\UserForms\Model\EditableFormField\EditableFileField:
   extensions:
-    - DNADesign\UserFormExtras\Extension\EditableFileField_AllowedTypeExtension
+    - DNADesign\UserFormExtras\Extension\EditableFileFieldAllowedTypeExtension
 
 SilverStripe\UserForms\Form\UserForm:
   extensions:
-    - DNADesign\UserFormExtras\Extension\UserForm_FileTypeExtension
+    - DNADesign\UserFormExtras\Extension\UserFormFileTypeExtension
 
 Injector:
   SilverStripe\UserForms\Form\UserForm:

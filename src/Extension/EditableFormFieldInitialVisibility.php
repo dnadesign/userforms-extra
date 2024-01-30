@@ -6,7 +6,7 @@ use SilverStripe\Core\Extension;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
 
-class EditableFormField_InitialVisibility extends Extension
+class EditableFormFieldInitialVisibility extends Extension
 {
 
     /**
@@ -27,7 +27,7 @@ class EditableFormField_InitialVisibility extends Extension
                 $request = Injector::inst()->get(HTTPRequest::class);
                 $session = $request->getSession();
                 $value = $session->get('FormInfo.BetterUserForm_Form.data.'.$conditionFieldName);
-                
+
                 // If field has a rules that would reveal it
                 if ($rule->Display == 'Show' && $value) {
                     $operator = null;

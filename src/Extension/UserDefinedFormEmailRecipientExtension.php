@@ -11,7 +11,7 @@ use SilverStripe\Forms\CheckboxField;
 * It adds a checkbox on each UserDefinedForm Email Recipient to allow attaching uploaded files
 * Note: by default, files over 1MB will not be attached. @see UserDefniedForm:554
 */
-class UserDefinedForm_EmailRecipientExtension extends DataExtension
+class UserDefinedFormEmailRecipientExtension extends DataExtension
 {
     private static $db = [
         'AttachFilesToEmail' => 'Boolean'
