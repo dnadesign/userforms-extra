@@ -7,7 +7,7 @@ use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Forms\FieldList;
 
-class EditableFileField_AllowedTypeExtension extends DataExtension
+class EditableFileFieldAllowedTypeExtension extends DataExtension
 {
     private static $db = [
         'AllowedExtensions' => 'Varchar(255)'
