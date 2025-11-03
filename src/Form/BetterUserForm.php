@@ -8,6 +8,9 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\UserForms\Form\UserForm;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\ORM\ValidationResult;
+
 
 /**
 * This class extension is to allow to resurface the error message
@@ -15,16 +18,16 @@ use SilverStripe\Core\Injector\Injector;
 * in the same way as the front end validation
 * if the "DisplayErrorMessagesAtTop" option is selected
 *
-* As there are no hooks on USerDefinedForm and UserForm
+* As there are no hooks on UserDefinedForm and UserForm
 * This class is being injected to replace UserForm
 */
-
 class BetterUserForm extends UserForm
 {
-    public function validate()
+    public function validate(): ValidationResult
     {
         if ($this->validator) {
-            $errors = $this->validator->validate();
+            $validationResult = $this->validator->validate();
+            $errors = $validationResult->getMessages();
 
             if ($errors) {
                 // Load errors into session and post back
@@ -54,7 +57,7 @@ class BetterUserForm extends UserForm
                 $controller = $this->getController();
                 if ($controller && $controller->data()->DisplayErrorMessagesAtTop) {
                     $errorList = new ArrayList();
-                    
+
                     foreach ($errors as $error) {
                         $errorList->push(array(
                             'Target' => '#'.$error['fieldName'],
@@ -69,10 +72,10 @@ class BetterUserForm extends UserForm
                     $this->sessionMessage($errorHTML, 'bad', false);
                 }
 
-                return false;
+                return $validationResult;
             }
         }
 
-        return true;
+        return ValidationResult::create();
     }
 }
