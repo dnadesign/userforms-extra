@@ -4,6 +4,7 @@ namespace DNADesign\UserFormExtras\Form;
 
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\ValidationResult;
 use SilverStripe\View\ArrayData;
 use SilverStripe\UserForms\Form\UserForm;
 use SilverStripe\Control\HTTPRequest;
@@ -21,7 +22,7 @@ use SilverStripe\Core\Injector\Injector;
 
 class BetterUserForm extends UserForm
 {
-    public function validate()
+    public function validate(): ValidationResult
     {
         if ($this->validator) {
             $errors = $this->validator->validate();
@@ -54,7 +55,7 @@ class BetterUserForm extends UserForm
                 $controller = $this->getController();
                 if ($controller && $controller->data()->DisplayErrorMessagesAtTop) {
                     $errorList = new ArrayList();
-                    
+
                     foreach ($errors as $error) {
                         $errorList->push(array(
                             'Target' => '#'.$error['fieldName'],
@@ -68,11 +69,9 @@ class BetterUserForm extends UserForm
 
                     $this->sessionMessage($errorHTML, 'bad', false);
                 }
-
-                return false;
             }
         }
 
-        return true;
+        return parent::validate();
     }
 }
