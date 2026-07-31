@@ -5,7 +5,12 @@ namespace DNADesign\UserFormExtras\Extension;
 use SilverStripe\Core\Extension;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\FormField;
+use SilverStripe\UserForms\Model\EditableFormField;
 
+/**
+ * @extends Extension<EditableFormField>
+ */
 class EditableFormFieldInitialVisibility extends Extension
 {
 
@@ -14,14 +19,19 @@ class EditableFormFieldInitialVisibility extends Extension
     * When the page reloads and data is populated, the intial state is the correct one
     * as javascript does not initialise the states
     */
-    protected function afterUpdateFormField(&$field)
+    protected function afterUpdateFormField(FormField &$field): void
     {
         // If field is supposed to be hidden by default
         if ($this->getOwner()->ShowOnLoad == false) {
             $rules = $this->getOwner()->DisplayRules();
 
             foreach ($rules as $rule) {
-                $conditionFieldName = $rule->ConditionField()->Name;
+                $conditionField = $rule->ConditionField();
+                if (!$conditionField->exists()) {
+                    continue;
+                }
+                $conditionFieldName = $conditionField->Name;
+
                 // Can only get the data from the session
                 // Has we may get redirected at this stage and the request will be empty
                 $request = Injector::inst()->get(HTTPRequest::class);

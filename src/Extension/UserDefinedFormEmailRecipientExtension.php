@@ -5,11 +5,14 @@ namespace DNADesign\UserFormExtras\Extension;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\UserForms\Model\Recipient\EmailRecipient;
 
 /**
 * This extension disabled attaching by default files uploaded by user on a UserDefniedForm to an email.
 * It adds a checkbox on each UserDefinedForm Email Recipient to allow attaching uploaded files
 * Note: by default, files over 1MB will not be attached. @see UserDefniedForm:554
+ *
+ * @extends Extension<EmailRecipient>
 */
 class UserDefinedFormEmailRecipientExtension extends Extension
 {
@@ -17,7 +20,7 @@ class UserDefinedFormEmailRecipientExtension extends Extension
         'AttachFilesToEmail' => 'Boolean'
     ];
 
-    public function updateCMSFields(FieldList $fields)
+    public function updateCMSFields(FieldList $fields): void
     {
         // Add Checkbox to allow Files to be attached to emails
         $emailFile = CheckboxField::create('AttachFilesToEmail');
