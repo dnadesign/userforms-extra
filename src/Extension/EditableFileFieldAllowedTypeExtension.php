@@ -2,14 +2,14 @@
 
 namespace DNADesign\UserFormExtras\Extension;
 
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Forms\FieldList;
 
-class EditableFileFieldAllowedTypeExtension extends DataExtension
+class EditableFileFieldAllowedTypeExtension extends Extension
 {
-    private static $db = [
+    private static array $db = [
         'AllowedExtensions' => 'Varchar(255)'
     ];
 

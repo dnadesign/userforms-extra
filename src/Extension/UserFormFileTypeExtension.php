@@ -9,9 +9,9 @@ use SilverStripe\UserForms\Model\EditableFormField\EditableFileField;
 
 class UserFormFileTypeExtension extends Extension
 {
-    public function updateForm()
+    protected function updateForm()
     {
-        $controller = $this->owner->controller;
+        $controller = $this->getOwner()->controller;
 
         if ($controller && $controller instanceof UserDefinedFormController) {
             // Check if we have File Fields
@@ -19,7 +19,7 @@ class UserFormFileTypeExtension extends Extension
 
             if ($userDefinedForm) {
                 $fileFields = $userDefinedForm->Fields()->filter('ClassName', EditableFileField::class);
-                $fields = FieldList::create($this->owner->Fields()->dataFields());
+                $fields = FieldList::create($this->getOwner()->Fields()->dataFields());
 
                 foreach ($fileFields as $field) {
                     $allowedExtensions = $field->getAllowedExtensionArray();

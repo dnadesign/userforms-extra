@@ -14,11 +14,11 @@ class EditableFormFieldInitialVisibility extends Extension
     * When the page reloads and data is populated, the intial state is the correct one
     * as javascript does not initialise the states
     */
-    public function afterUpdateFormField(&$field)
+    protected function afterUpdateFormField(&$field)
     {
         // If field is supposed to be hidden by default
-        if ($this->owner->ShowOnLoad == false) {
-            $rules = $this->owner->DisplayRules();
+        if ($this->getOwner()->ShowOnLoad == false) {
+            $rules = $this->getOwner()->DisplayRules();
 
             foreach ($rules as $rule) {
                 $conditionFieldName = $rule->ConditionField()->Name;
@@ -31,18 +31,11 @@ class EditableFormFieldInitialVisibility extends Extension
                 // If field has a rules that would reveal it
                 if ($rule->Display == 'Show' && $value) {
                     $operator = null;
-                    switch ($rule->ConditionOption) {
-                        case 'HasValue':
-                            $operator = '==';
-                            break;
-
-                        case 'ValueNot':
-                            $operator = '!=';
-                            break;
-
-                        default:
-                            $operator = null;
-                    }
+                    $operator = match ($rule->ConditionOption) {
+                        'HasValue' => '==',
+                        'ValueNot' => '!=',
+                        default => null,
+                    };
 
                     // Check if we can eval the condition
                     // Currently works with "Equals" and "Not Equals"

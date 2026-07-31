@@ -2,10 +2,10 @@
 
 namespace DNADesign\UserFormExtras\Form;
 
+use SilverStripe\Core\Validation\ValidationResult;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\ArrayData;
 use SilverStripe\Core\Convert;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\ValidationResult;
-use SilverStripe\View\ArrayData;
 use SilverStripe\UserForms\Form\UserForm;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
@@ -54,17 +54,17 @@ class BetterUserForm extends UserForm
                 // Set the Form session message as well
                 $controller = $this->getController();
                 if ($controller && $controller->data()->DisplayErrorMessagesAtTop) {
-                    $errorList = new ArrayList();
+                    $errorList = ArrayList::create();
 
                     foreach ($errors as $error) {
-                        $errorList->push(array(
+                        $errorList->push([
                             'Target' => '#'.$error['fieldName'],
                             'Message' => $error['message']
-                        ));
+                        ]);
                     }
 
                     $errorHTML = $controller
-                        ->customise(new ArrayData(array('ErrorList' => $errorList)))
+                        ->customise(ArrayData::create(['ErrorList' => $errorList]))
                         ->renderWith('UserFormPhpErrors');
 
                     $this->sessionMessage($errorHTML, 'bad', false);
