@@ -2,13 +2,15 @@
 
 namespace DNADesign\UserFormExtras\Form;
 
+use SilverStripe\Core\Validation\ValidationResult;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\ArrayData;
 use SilverStripe\Core\Convert;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\ValidationResult;
-use SilverStripe\View\ArrayData;
 use SilverStripe\UserForms\Form\UserForm;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\UserForms\Control\UserDefinedFormController;
 
 /**
 * This class extension is to allow to resurface the error message
@@ -33,16 +35,18 @@ class BetterUserForm extends UserForm
 
                 // Encode validation messages as XML before saving into session state
                 // As per Form::addErrorMessage()
-                $errors = array_map(function ($error) {
-                    // Encode message as XML by default
-                    if ($error['message'] instanceof DBField) {
-                        $error['message'] = $error['message']->forTemplate();
-                        ;
-                    } else {
-                        $error['message'] = Convert::raw2xml($error['message']);
-                    }
-                    return $error;
-                }, $errors);
+                $errors = $this->validator->validate()->getMessages();
+                if ($errors) {
+                    $errors = array_map(function ($error) {
+                        // Encode message as XML by default
+                        if ($error['message'] instanceof DBField) {
+                            $error['message'] = $error['message']->forTemplate();
+                        } else {
+                            $error['message'] = Convert::raw2xml($error['message']);
+                        }
+                        return $error;
+                    }, $errors);
+                }
 
                 $request = Injector::inst()->get(HTTPRequest::class);
                 $session = $request->getSession();
@@ -53,21 +57,21 @@ class BetterUserForm extends UserForm
                 // If option is to display error messages at the top
                 // Set the Form session message as well
                 $controller = $this->getController();
-                if ($controller && $controller->data()->DisplayErrorMessagesAtTop) {
-                    $errorList = new ArrayList();
+                if ($controller instanceof UserDefinedFormController && $controller->data()->DisplayErrorMessagesAtTop) {
+                    $errorList = ArrayList::create();
 
                     foreach ($errors as $error) {
-                        $errorList->push(array(
+                        $errorList->push([
                             'Target' => '#'.$error['fieldName'],
                             'Message' => $error['message']
-                        ));
+                        ]);
                     }
 
                     $errorHTML = $controller
-                        ->customise(new ArrayData(array('ErrorList' => $errorList)))
+                        ->customise(ArrayData::create(['ErrorList' => $errorList]))
                         ->renderWith('UserFormPhpErrors');
 
-                    $this->sessionMessage($errorHTML, 'bad', false);
+                    $this->sessionMessage($errorHTML, 'bad');
                 }
             }
         }

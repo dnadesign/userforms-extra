@@ -2,18 +2,23 @@
 
 namespace DNADesign\UserFormExtras\Extension;
 
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormField;
+use SilverStripe\UserForms\Model\EditableFormField\EditableFileField;
 
-class EditableFileFieldAllowedTypeExtension extends DataExtension
+/**
+ * @extends Extension<EditableFileField>
+ */
+class EditableFileFieldAllowedTypeExtension extends Extension
 {
-    private static $db = [
+    private static array $db = [
         'AllowedExtensions' => 'Varchar(255)'
     ];
 
-    public function updateCMSFields(FieldList $fields)
+    public function updateCMSFields(FieldList $fields): void
     {
         $allowedExtensions = TextField::create('AllowedExtensions');
         $allowedExtensions->setRightTitle('Comma seperated list of file extensions eg csv,pdf,jpg');
@@ -24,10 +29,8 @@ class EditableFileFieldAllowedTypeExtension extends DataExtension
     /**
     * Return the list of extensions
     * stripping whitepsaces and .
-    *
-    * @return Array
     */
-    public function getAllowedExtensionArray()
+    public function getAllowedExtensionArray(): ?array
     {
         $extensions = preg_replace('/[\s+|.+]/', '', strtolower($this->owner->AllowedExtensions ?? ''));
         if (!$extensions) {
@@ -41,7 +44,7 @@ class EditableFileFieldAllowedTypeExtension extends DataExtension
     * Render with a special template
     * so we can add the limitations as text
     */
-    public function afterUpdateFormField(&$field)
+    public function afterUpdateFormField(FormField &$field): void
     {
         $field->setFieldHolderTemplate('Forms/EditableFileField_holder');
         $field->setDescription($this->owner->getLimitations());
